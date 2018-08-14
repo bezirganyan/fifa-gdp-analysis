@@ -8,7 +8,6 @@ import markdowns
 gdp_df = pd.read_csv("gdp_preprocessed.csv")
 fifa_df = pd.read_csv("fifa_ranking_preprocessed.csv")
 countries = fifa_df.country.unique()
-print(gdp_df['year'])
 app = dash.Dash()
 app.layout = html.Div([
     html.H1("FIFA World ranking analysis based on country GDP",
@@ -60,10 +59,8 @@ def update_scatter_figure(selected_year):
     traces = []
     for i in filtered_fifa.country.unique():
         gdp_by_country = filtered_gdp[filtered_gdp['country'] == i]
-        # gdp_by_country.gdp = functions.normalize(gdp_by_country.gdp)
 
         fifa_by_country = filtered_fifa[filtered_fifa['country'] == i]
-        # fifa_by_country.rank = functions.normalize(fifa_by_country["rank"])
 
         traces.append(go.Scatter(
             x=gdp_by_country['gdp'],
@@ -94,10 +91,8 @@ def update_scatter_figure(selected_year):
 @app.callback(dash.dependencies.Output('country_rank_graph', 'figure'),
               [dash.dependencies.Input('country_dropdown', 'value')])
 def update_rank_plot(selected_countries):
-    # filtered_gdp = gdp_df[gdp_df.year == selected_year]
     filtered_fifa = fifa_df[fifa_df.country.isin(selected_countries)]
     traces = []
-    print(filtered_fifa)
     for i in filtered_fifa.country.unique():
         fifa_by_country = filtered_fifa[filtered_fifa['country'] == i]
 
@@ -129,15 +124,10 @@ def update_rank_plot(selected_countries):
 @app.callback(dash.dependencies.Output('country_gdp_graph', 'figure'),
               [dash.dependencies.Input('country_dropdown', 'value')])
 def update_rank_plot(selected_countries):
-    # filtered_gdp = gdp_df[gdp_df.year == selected_year]
     filtered_gdp = gdp_df[gdp_df.country.isin(selected_countries)]
     traces = []
     for i in filtered_gdp.country.unique():
-        # gdp_by_country = filtered_gdp[filtered_gdp['country'] == i]
-        # gdp_by_country.gdp = functions.normalize(gdp_by_country.gdp)
-
         gdp_by_country = filtered_gdp[filtered_gdp['country'] == i]
-        # fifa_by_country.rank = functions.normalize(fifa_by_country["rank"])
 
         traces.append(go.Scatter(
             x=gdp_by_country['year'],
